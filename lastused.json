@@ -1,0 +1,14 @@
+{
+  "jump_host": "raspberrypi.local",
+  "username": "pi",
+  "jump_port": 22,
+  "pubkey": "~/.ssh/id_rsa",
+  "forwardings": [
+    {
+      "local_port": 8005,
+      "hostname": "raspberrypi.local",
+      "remote_port": 80,
+      "label": "Apache"
+    }
+  ]
+}
