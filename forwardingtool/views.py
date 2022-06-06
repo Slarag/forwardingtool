@@ -7,11 +7,8 @@ from tkinter import messagebox
 import os
 import os.path
 import json
-import base64
 from functools import partialmethod
 from traceback import format_exc
-from subprocess import Popen #, CREATE_NEW_CONSOLE
-import sys
 from copy import deepcopy
 from typing import Optional, List, Tuple, Any, Callable, Union
 
@@ -20,7 +17,7 @@ from PIL import Image, ImageTk
 
 from forwardingtool.widgets import ForwardTreeView, ConnectionSetupView, AddForwardView
 from forwardingtool.config import Config, ForwardedPort, DEFAULTCONFIG
-from forwardingtool import __version__ as VERSION
+from forwardingtool.version import __version__ as VERSION
 
 from . import widgets
 from . import inputs

@@ -1,5 +1,5 @@
-from forwardingtool.views import App
+import forwardingtool
 
 if __name__ == '__main__':
-    app = App()
+    app = forwardingtool.App()
     app.mainloop()
