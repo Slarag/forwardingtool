@@ -100,7 +100,7 @@ class ValidatorMixin:
     def _validate(self, proposed, current, char, event, index, action):
         self._toggle_error(False)
         self.error.set('')
-        valid: bool = False
+        valid: bool = True
         if event == 'focusout':
             valid = self._focusout_validate(event=event)
         elif event == 'key':
@@ -120,7 +120,7 @@ class ValidatorMixin:
             self._focusout_invalid(event=event)
         elif event == 'key':
             self._key_invalid(proposed=proposed, current=current,
-                              har=char, event=event, index=index,
+                              char=char, event=event, index=index,
                               action=action)
 
     def _focusout_invalid(self, **kwargs):
@@ -222,6 +222,7 @@ class StringInput(CombinedMixin, ttk.Entry):
             for char in proposed:
                 if char in self.INVALID_CHARS:
                     return False
+        return True
 
     def _focusout_validate(self, **kwargs):
         value: str = self.get()
