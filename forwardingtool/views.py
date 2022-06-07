@@ -295,38 +295,41 @@ class App(MessageMixin, IconMixin, tk.Tk):
         self.fv.set(cfg.forwardings)
 
     def on_start(self, event=None):
-        if self.connection is not None:
-            return
-
         try:
-            cfg = self.get()
-            if cfg is None:
-                return
-            cfg.validate()
-        except ValueError as exc:
-            self.showerror(exc.args[0])
-        else:
-            # creationflags = 0
-            # if sys.platform == 'win32':
-            #     creationflags = 16
-            # #     creationflags = CREATE_NEW_CONSOLE
-            # print(cfg.as_args())
-            # Popen(cfg.as_args(), creationflags=creationflags)
-
-            key = connector.load_key(self, config.expandpath(cfg.pubkey))
-            if key is None:
-                self.showerror('Could not load private key!')
+            if self.connection is not None:
                 return
 
             try:
-                self.connection = connector.connect(cfg, key)
-            except sshtunnel.BaseSSHTunnelForwarderError as exc:
-                self.showerror(exc.value)
+                cfg = self.get()
+                if cfg is None:
+                    return
+                cfg.validate()
+            except ValueError as exc:
+                self.showerror(exc.args[0])
             else:
-                self.save_default()
-                self.startbutton.config(text='Disconnect', command=self.on_disconnect)
-                self.after(100, self.check_connection)
-                self.showinfo('Successfully connected to SSH server!')
+                # creationflags = 0
+                # if sys.platform == 'win32':
+                #     creationflags = 16
+                # #     creationflags = CREATE_NEW_CONSOLE
+                # print(cfg.as_args())
+                # Popen(cfg.as_args(), creationflags=creationflags)
+
+                key = connector.load_key(self, config.expandpath(cfg.pubkey))
+                if key is None:
+                    self.showerror('Could not load private key!')
+                    return
+
+                try:
+                    self.connection = connector.connect(cfg, key)
+                except sshtunnel.BaseSSHTunnelForwarderError as exc:
+                    self.showerror(exc.value)
+                else:
+                    self.save_default()
+                    self.startbutton.config(text='Disconnect', command=self.on_disconnect)
+                    self.after(100, self.check_connection)
+                    self.showinfo('Successfully connected to SSH server!')
+        except Exception as exc:
+            self.showerror(format_exc())
 
     def check_connection(self):
         if self.connection is None:
@@ -402,7 +405,6 @@ class PasswordDialog(IconMixin, tk.Toplevel):
         self.protocol("WM_DELETE_WINDOW", self.on_cancel)
 
     def on_ok(self, *args):
-        print('*')
         self.aborted = False
         self.destroy()
 

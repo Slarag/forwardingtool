@@ -39,3 +39,8 @@ Installation
 6. If you want to create an executable (=freeze the application with cx_freeze), run the following steps:
 
    1. ```(env) C:\Users\slarag\forwardingtool> python freeze.py build```
+
+Known Issues
+------------
+
+- Cannot use keyring to store/retrieve passwords when application is frozen
