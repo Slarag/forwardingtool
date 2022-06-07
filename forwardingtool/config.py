@@ -62,7 +62,7 @@ class Config:
     jump_host: str
     username: str = ''
     jump_port: int = 22
-    pubkey: Optional[str] = None
+    key: Optional[str] = None
     forwardings: List[ForwardedPort] = field(default_factory=list)
 
     @classmethod
@@ -114,15 +114,15 @@ class Config:
         is_port(self.jump_port)
         if self.username and not self.username.isalnum():
             raise ValueError(f'{self.username!r} is not an alphanumeric username')
-        if self.pubkey is not None and not os.path.isfile(expandpath(self.pubkey)):
-            raise ValueError(f'Public key file {expandpath(self.pubkey)!r} not found')
+        if self.key is not None and not os.path.isfile(expandpath(self.key)):
+            raise ValueError(f'Public key file {expandpath(self.key)!r} not found')
 
     def __str__(self) -> str:
         s: str = 'ssh ' + \
                  (f'{self.username}@' if self.username else '') + \
                  f'{self.jump_host}' + \
                  (f' -p {self.jump_port}' if self.jump_port != 22 else '') + \
-                 (f' -i {expandpath(self.pubkey)}' if self.pubkey else '') + \
+                 (f' -i {expandpath(self.key)}' if self.key else '') + \
                  ''.join(f' -L {fwd}' for fwd in self.forwardings) + \
                  ' -N'
         return s
@@ -135,8 +135,8 @@ class Config:
                 ]
         if self.jump_port != 22:
             args += ['-p', f'{self.jump_port}']
-        if self.pubkey:
-            args += ['-i', f'{expandpath(self.pubkey)}']
+        if self.key:
+            args += ['-i', f'{expandpath(self.key)}']
         for fwd in self.forwardings:
             args += ['-L', f'{fwd}']
         return args

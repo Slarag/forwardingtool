@@ -93,7 +93,7 @@ class ConnectionSetupView(BaseView[Config]):
         'jump_host': ('Jump Host', inputs.HostnameInput),
         'username': ('Username', inputs.UsernameInput),
         'jump_port': ('Port', inputs.PortInput),
-        'pubkey': ('Public Key File', inputs.FileInput),
+        'pubkey': ('Key File', inputs.FileInput),
     }
 
     def __init__(self, master):
@@ -103,7 +103,7 @@ class ConnectionSetupView(BaseView[Config]):
         self.grid_columnconfigure(1, weight=1)
 
     def on_browse(self):
-        """Browse Public Key File"""
+        """Browse Key File"""
         filename = filedialog.askopenfilename()
         if filename == '':
             return
