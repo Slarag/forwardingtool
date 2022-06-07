@@ -115,7 +115,7 @@ class Config:
         if self.username and not self.username.isalnum():
             raise ValueError(f'{self.username!r} is not an alphanumeric username')
         if self.key is not None and not os.path.isfile(expandpath(self.key)):
-            raise ValueError(f'Public key file {expandpath(self.key)!r} not found')
+            raise ValueError(f'Key file {expandpath(self.key)!r} not found')
 
     def __str__(self) -> str:
         s: str = 'ssh ' + \

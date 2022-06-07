@@ -93,7 +93,7 @@ class ConnectionSetupView(BaseView[Config]):
         'jump_host': ('Jump Host', inputs.HostnameInput),
         'username': ('Username', inputs.UsernameInput),
         'jump_port': ('Port', inputs.PortInput),
-        'pubkey': ('Key File', inputs.FileInput),
+        'key': ('Key File', inputs.FileInput),
     }
 
     def __init__(self, master):
@@ -108,7 +108,7 @@ class ConnectionSetupView(BaseView[Config]):
         if filename == '':
             return
         else:
-            self.widgets['pubkey'].set(filename)
+            self.widgets['key'].set(filename)
 
 
 class ForwardTreeView(ttk.LabelFrame):
