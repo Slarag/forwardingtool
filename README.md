@@ -27,9 +27,6 @@ Installation (Windows)
 3. Upgrade pip:
 
     ```(env) C:\Users\slarag\forwardingtool> python -m pip install --upgrade pip```
-
-4. Install required package in the virtual environment:
-
     ```(env) C:\Users\slarag\forwardingtool> python -m pip install -r requirements.txt```
 
 5. Run the tool:
@@ -76,3 +73,7 @@ Known Issues/Limitations
 ------------------------
 
 - freeze.py script only available/tested for Windows OS
+
+![Main Dialog](img/dialog_main.png)
+![About Dialog](img/about.png)
+![Dropdown Menu](img/file_dropdown.png)
