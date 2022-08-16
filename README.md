@@ -74,6 +74,11 @@ Known Issues/Limitations
 
 - freeze.py script only available/tested for Windows OS
 
+Pictures
+--------
+
 ![Main Dialog](img/dialog_main.png)
+
 ![About Dialog](img/about.png)
+
 ![Dropdown Menu](img/file_dropdown.png)
