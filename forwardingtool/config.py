@@ -1,4 +1,6 @@
-"""Configuration for the forwardingtool"""
+"""
+Configuration for the forwardingtool
+"""
 
 from __future__ import annotations
 import json
@@ -14,18 +16,27 @@ IPV4PAT: re.Pattern = re.compile(r'(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})')
 
 
 def expandpath(path: str) -> str:
-    """Expand environment variables, replace ~ with the users homepath"""
+    """
+    Expand environment variables, replace ~ with the users homepath
+    """
+
     return os.path.normcase(os.path.expandvars(os.path.expanduser(path)))
 
 
 def is_port(value: int):
-    """Raises a Value Error if the given value is not a valid port number"""
+    """
+    Raises a Value Error if the given value is not a valid port number
+    """
+
     if not 0 <= value <= 65535:
         raise ValueError(f'{value!r} is not a valid port number. Must be within 0 to 65535')
 
 
 def is_hostname(value: str):
-    """Raises a Value Error if the given value is not a valid host name"""
+    """
+    Raises a Value Error if the given value is not a valid host name
+    """
+
     if value == '':
         raise ValueError('Remote hostname must not be empty')
     elif IPV4PAT.search(value):
@@ -38,14 +49,20 @@ def is_hostname(value: str):
 
 @dataclass(order=True)
 class ForwardedPort:
-    """Dataclass describing a single forwarded port"""
+    """
+    Dataclass describing a single forwarded port
+    """
+
     local_port: int
     hostname: str
     remote_port: int
     label: str = ''
 
     def validate(self) -> None:
-        """Raises a ValueError if configuration is not valid"""
+        """
+        Raises a ValueError if configuration is not valid
+        """
+
         is_hostname(self.hostname)
         is_port(self.remote_port)
         is_port(self.local_port)
@@ -58,7 +75,10 @@ class ForwardedPort:
 
 @dataclass
 class Config:
-    """Dataclass for configuration"""
+    """
+    Dataclass for configuration
+    """
+
     jump_host: str
     username: str = ''
     jump_port: int = 22
@@ -67,7 +87,10 @@ class Config:
 
     @classmethod
     def load(cls, filename: str) -> Config:
-        """Load config from json file"""
+        """
+        Load config from json file
+        """
+
         with open(os.path.abspath(filename), mode='r') as file:
             data = json.load(file)
             data['forwardings'] = [ForwardedPort(**x) for x in data['forwardings']]
@@ -77,6 +100,10 @@ class Config:
 
     @classmethod
     def from_cmd(cls, cmd: str):
+        """
+        Parse ssh command string and return a config.
+        """
+
         parser = argparse.ArgumentParser()
         parser.add_argument('cmd')
         parser.add_argument('user_host')
@@ -104,12 +131,18 @@ class Config:
         return instance
 
     def save(self, filename: str) -> None:
-        """Save config to json file"""
+        """
+        Save config to json file
+        """
+
         with open(os.path.abspath(filename), mode='w') as file:
             json.dump(asdict(self), file, indent=2)
 
     def validate(self) -> None:
-        """Raises a ValueError if configuration is not valid"""
+        """
+        Raises a ValueError if configuration is not valid
+        """
+
         is_hostname(self.jump_host)
         is_port(self.jump_port)
         if self.username and not self.username.isalnum():
@@ -128,7 +161,10 @@ class Config:
         return s
 
     def as_args(self) -> List[str]:
-        """Return a list of arguments to be used for a call to subprocesses.run()"""
+        """
+        Return a list of arguments to be used for a call to subprocesses.run()
+        """
+
         args = ['ssh',
                 (f'{self.username}@' if self.username else '') + f'{self.jump_host}',
                 '-N',

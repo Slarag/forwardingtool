@@ -29,7 +29,9 @@ buildOptions = {
         "tkinter",
         "forwardingtool",
         "keyring",
-        # "keyring.backends.Windows",
+        "keyring.backends",
+        # without win32ctypes keyring won't function properly
+        "win32ctypes",
         "paramiko",
         "sshtunnel",
     ],

@@ -11,14 +11,18 @@ from keyring.errors import NoKeyringError, KeyringLocked
 from . import views
 from . import config
 
-# if getattr(sys, "frozen", False) and os.name == 'nt':
-#     from keyring.backends import Windows
-#     keyring.set_keyring(Windows.WinVaultKeyring())
-
 APP: str = 'forwardingtool'
 
 
-def load_key(master, keyfile) -> Optional[paramiko.RSAKey]:
+def load_key(master, keyfile: str) -> Optional[paramiko.RSAKey]:
+    """
+    Load RSA key from file.
+
+    If the key file is encrypted, try to load the key from keyring. If no password is found in the keyring or if the \
+    password is incorrect, prompt the user up to three times to enter the correct password. If the entered password is \
+    correct, it will be automatically stored in the keyring.
+    """
+
     # Try key without password
     key: Optional[paramiko.RSAKey] = None
     try:
@@ -55,6 +59,9 @@ def load_key(master, keyfile) -> Optional[paramiko.RSAKey]:
 
 
 def connect(cfg: config.Config, key: paramiko.RSAKey) -> sshtunnel.SSHTunnelForwarder:
+    """
+    Create SSH tunnels from config.
+    """
 
     t = sshtunnel.open_tunnel(
         (cfg.jump_host, cfg.jump_port),

@@ -72,7 +72,7 @@ Installation (Linux)
     ```slarag@ubuntu:~/forwardingtool> python main.py```
 
 
-Known Issues
-------------
+Known Issues/Limitations
+------------------------
 
-- Cannot use keyring to store/retrieve passwords when application is frozen
+- freeze.py script only available/tested for Windows OS
