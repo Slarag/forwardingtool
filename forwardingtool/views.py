@@ -314,7 +314,7 @@ class App(MessageMixin, IconMixin, tk.Tk):
                 # print(cfg.as_args())
                 # Popen(cfg.as_args(), creationflags=creationflags)
 
-                key = connector.load_key(self, config.expandpath(cfg.pubkey))
+                key = connector.load_key(self, config.expandpath(cfg.key))
                 if key is None:
                     self.showerror('Could not load private key!')
                     return
