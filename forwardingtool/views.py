@@ -433,7 +433,7 @@ class AboutDialog(IconMixin, tk.Toplevel):
         button = ttk.Button(self, text='OK', command=self.on_ok)
         text.insert('1.0', 'ForwardingTool is a simple GUI tool for easy setup of multiple SSH tunnels using the same jump server\n'
                          'It is licensed under the MIT license. Soucre code is available on ')
-        text.insert_link('GitHub', 'https://github.com/')
+        text.insert_link('GitHub', 'https://github.com/Slarag/forwardingtool')
         text.insert('end', '\n\nIt heavily depends on the ')
         text.insert_link('sshtunnel', 'https://pypi.org/project/sshtunnel/')
         text.insert('end', ' module.\n\n')
