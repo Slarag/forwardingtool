@@ -29,6 +29,7 @@ buildOptions = {
         "tkinter",
         "forwardingtool",
         "keyring",
+        # "keyring.backends.Windows",
         "paramiko",
         "sshtunnel",
     ],

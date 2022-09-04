@@ -1,4 +1,6 @@
 from typing import Optional
+import sys
+import os
 
 import sshtunnel
 import paramiko
@@ -8,6 +10,10 @@ from keyring.errors import NoKeyringError, KeyringLocked
 
 from . import views
 from . import config
+
+# if getattr(sys, "frozen", False) and os.name == 'nt':
+#     from keyring.backends import Windows
+#     keyring.set_keyring(Windows.WinVaultKeyring())
 
 APP: str = 'forwardingtool'
 
@@ -23,10 +29,13 @@ def load_key(master, keyfile) -> Optional[paramiko.RSAKey]:
         try:
             pwd: Optional[str] = keyring.get_password(APP, keyfile)
             key = paramiko.RSAKey.from_private_key_file(keyfile, password=pwd)
-        except (PasswordRequiredException, NoKeyringError, KeyringLocked):
+        except (PasswordRequiredException, NoKeyringError, KeyringLocked, SSHException):
             # Password was not found in keyring, or no keyring backend available or keyring locked
             for _ in range(3):
-                pwd = views.PasswordDialog(master).ask()
+                pwdialog = views.PasswordDialog(master)
+                pwd = pwdialog.ask()
+                if pwdialog.aborted:
+                    break
                 try:
                     key = paramiko.RSAKey.from_private_key_file(keyfile, password=pwd)
                 except SSHException:
